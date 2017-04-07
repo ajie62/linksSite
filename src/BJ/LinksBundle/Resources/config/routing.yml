@@ -1,0 +1,3 @@
+bj_links_homepage:
+    path:     /
+    defaults: { _controller: BJLinksBundle:Default:index }

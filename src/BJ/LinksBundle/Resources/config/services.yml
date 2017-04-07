@@ -1,0 +1,4 @@
+services:
+#    bj_links.example:
+#        class: BJ\LinksBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

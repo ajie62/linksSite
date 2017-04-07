@@ -1,0 +1,7 @@
+bj_links:
+    resource: "@BJLinksBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
