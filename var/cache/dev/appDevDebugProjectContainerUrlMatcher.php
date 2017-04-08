@@ -111,7 +111,12 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 return $this->redirect($pathinfo.'/', 'bj_links_homepage');
             }
 
-            return array (  '_controller' => 'BJ\\LinksBundle\\Controller\\DefaultController::indexAction',  '_route' => 'bj_links_homepage',);
+            return array (  '_controller' => 'BJ\\LinksBundle\\Controller\\LinksController::indexAction',  '_route' => 'bj_links_homepage',);
+        }
+
+        // bj_links_view
+        if ($pathinfo === '/links') {
+            return array (  '_controller' => 'BJ\\LinksBundle\\Controller\\LinksController::viewAction',  '_route' => 'bj_links_view',);
         }
 
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
