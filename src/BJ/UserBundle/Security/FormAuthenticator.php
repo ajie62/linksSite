@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Security;
@@ -22,6 +23,14 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class FormAuthenticator extends AbstractGuardAuthenticator
 {
+
+    private $failMessage = 'Bad credentials';
+    private $encoder;
+
+    public function __construct(UserPasswordEncoder $encoder)
+    {
+        $this->encoder = $encoder;
+    }
 
     /**
      * Returns a response that directs the user to authenticate.
@@ -167,7 +176,7 @@ class FormAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
         // TODO Déterminer sur quelle page l'utilisateur doit être redirigé
-        // return new RedirectResponse('home');
+        return new RedirectResponse('login');
     }
 
     /**
