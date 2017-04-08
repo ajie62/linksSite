@@ -1,3 +1,9 @@
 bj_links_homepage:
-    path:     /
-    defaults: { _controller: BJLinksBundle:Default:index }
+    path:    /
+    defaults:
+      _controller: BJLinksBundle:Links:index
+
+bj_links_view:
+    path:    /links
+    defaults:
+      _controller: BJLinksBundle:Links:view
