@@ -174,7 +174,8 @@ class FormAuthenticator extends AbstractGuardAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        return new RedirectResponse('bj_links_homepage', 302);
+        //TODO définir redirection
+        return new RedirectResponse('/');
     }
 
     /**
