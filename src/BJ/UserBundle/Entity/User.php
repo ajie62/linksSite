@@ -8,7 +8,7 @@
 
 // Doc : http://symfony.com/doc/current/security/entity_provider.html
 
-namespace BG\UserBundle\Entity;
+namespace BJ\UserBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM; // Cette ligne permet d'utiliser les annontations @ORM
