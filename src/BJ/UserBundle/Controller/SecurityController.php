@@ -23,8 +23,7 @@ class SecurityController extends Controller
         $error = $authenticationUtils->getLastAuthenticationError();
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        //TODO définir vue login
-        return $this->render('', array(
+        return $this->render('user/login.html.twig', array(
             'last_username' => $lastUsername,
             'error'         => $error
         ));
