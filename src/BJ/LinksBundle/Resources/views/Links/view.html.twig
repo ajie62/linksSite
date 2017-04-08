@@ -1,0 +1,20 @@
+{% extends "BJLinksBundle::layout.html.twig" %}
+
+{% block title %}
+Vos liens - {{parent()}}
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+	<div class="jumbotron">
+		<h1>Vos liens</h1>
+		<p>Les liens que vous avez ajoutés se trouvent sur cette page.</p>
+	</div>
+
+{# Cette page n'est visible que pour le membre actif. #}
+{# Ici seront affichés tous les liens du membre. #}
+
+</div>
+
+{% endblock %}
