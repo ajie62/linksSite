@@ -4,6 +4,6 @@ parameters:
     #parameter_name: value
 
 services:
-    #service_name:
-    #    class: AppBundle\Directory\ClassName
-    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    bj.form_authenticator:
+        class: BJ\UserBundle\Security\FormAuthenticator
+        arguments: ["@security.password_encoder"]

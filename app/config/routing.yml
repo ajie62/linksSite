@@ -1,3 +1,10 @@
 bj_links:
     resource: "@BJLinksBundle/Resources/config/routing.yml"
     prefix:   /
+
+bj_user:
+    resource: "@BJUserBundle/Controller/"
+    type:     annotation
+
+logout:
+    path: /logout
