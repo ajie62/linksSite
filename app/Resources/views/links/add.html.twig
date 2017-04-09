@@ -1,0 +1,12 @@
+{# app/Resources/views/links/add.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un lien | {{ parent() }}{% endblock %}
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_row(form.url) }}
+        <!-- Ici, les autres champs à ajouter -->
+        <input type="submit">
+    {{ form_end(form) }}
+{% endblock %}

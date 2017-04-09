@@ -7,3 +7,8 @@ bj_links_view:
     path:    /links
     defaults:
       _controller: BJLinksBundle:Links:view
+
+bj_links_add:
+    path:    /add
+    defaults:
+      _controller: BJLinksBundle:Links:add
