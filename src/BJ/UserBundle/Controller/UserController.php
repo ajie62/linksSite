@@ -14,8 +14,14 @@ use BJ\UserBundle\Form\Type\SignupType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
+
 class UserController extends Controller
 {
+    /**
+     * @Route("/signup", name="signup")
+     */
     public function signupAction(Request $request)
     {
         // On crée un nouvel objet utilisateur
@@ -35,10 +41,21 @@ class UserController extends Controller
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
+
+            // Ensuite, l'utilisateur est automatiquement connecté
+            // et redirigé vers la même page que lors d'un login classique
+            // Doc : https://knpuniversity.com/screencast/symfony-security/automatic-login-handling
+            return $this->get('security.authentication.guard_handler')
+                ->authenticateUserAndHandleSuccess(
+                    $user,
+                    $request,
+                    $this->get('bj.form_authenticator'),
+                    'main'
+                );
         }
 
         return $this->render('user/signup.html.twig', array(
-            'form' => $form
+            'form' => $form->createView()
         ));
     }
 }

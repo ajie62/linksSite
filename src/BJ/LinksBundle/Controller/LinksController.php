@@ -7,18 +7,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use BJ\LinksBundle\Entity\Link;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 class LinksController extends Controller
 {
+    /**
+     * @Route("/", name="home")
+     */
 	public function indexAction()
 	{
-		return $this->render('BJLinksBundle:Links:index.html.twig');
+		return $this->render('links/index.html.twig');
 	}
 
-	public function viewAction()
-	{
-		return $this->render('BJLinksBundle:Links:view.html.twig');
-	}
+    /**
+     * @Route("/links", name="links")
+     */
+    public function viewAction()
+    {
+        return $this->render('links/view.html.twig');
+    }
 
+    /**
+     * @Route("/add-link", name="add_link")
+     */
 	public function addAction(Request $request)
     {
         // On commence par créer un nouveau lien

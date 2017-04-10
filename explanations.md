@@ -1,10 +1,13 @@
 Voici les ajouts/modifications apportés :
-- Ajout du UserBundle : se charge de l'authentification des utilisateurs
+- UserBundle : 
+    - se charge de l'authentification des utilisateurs ;
+    - ! inscription d'un nouvel utilisateur
 - LinksBundle : 
     - ajout d'un fichier .gitignore
     - suppression du dossier DependencyInjection, qui ne nous sera pas utile ici ;
     - dans l'entité Link : ajout de __construct, pour définir la date automatiquement à la création d'un nouveau lien ;
     - ajout de la route "add", du formulaire LinkType, et de la vue "add".
+- ! composer.json : ajout de la description
 
 Bonnes pratiques :
 - Toujours ajouter une ligne à la fin des fichiers

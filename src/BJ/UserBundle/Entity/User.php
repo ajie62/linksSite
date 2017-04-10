@@ -7,11 +7,13 @@
  */
 
 // Doc : http://symfony.com/doc/current/security/entity_provider.html
+// Unicité : http://symfony.com/doc/current/reference/constraints/UniqueEntity.html
 
 namespace BJ\UserBundle\Entity;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM; // Cette ligne permet d'utiliser les annontations @ORM
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity; // Cette ligne va permettre de poser une contrainte sur l'unicité des champs username et email
 
 /**
  * Class User
@@ -19,6 +21,8 @@ use Doctrine\ORM\Mapping as ORM; // Cette ligne permet d'utiliser les annontatio
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="BJ\UserBundle\Repository\UserRepository")
+ * @UniqueEntity(fields="username", message="Ce pseudo est déjà utilisé.")
+ * @UniqueEntity(fields="email", message="Il semblerait que vous soyez déjà inscrit.")
  */
 class User implements UserInterface, \Serializable
 {
@@ -162,6 +166,6 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password
-            ) = $this->unserialize($serialized);
+            ) = unserialize($serialized);
     }
 }

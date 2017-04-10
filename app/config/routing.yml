@@ -1,6 +1,6 @@
 bj_links:
-    resource: "@BJLinksBundle/Resources/config/routing.yml"
-    prefix:   /
+    resource: "@BJLinksBundle/Controller/"
+    type:     annotation
 
 bj_user:
     resource: "@BJUserBundle/Controller/"
