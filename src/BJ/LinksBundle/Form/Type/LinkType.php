@@ -10,7 +10,6 @@ namespace BJ\LinksBundle\Form\Type;
 
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -25,6 +24,7 @@ class LinkType extends AbstractType
     {
         $builder
             ->add('url', UrlType::class, array(
+                'required' => true,
                 'constraints' => [
                     new NotBlank(array("message" => "L'URL est obligatoire.")),
                     new Url(array("message" => "Merci de renseigner une URL valide."))

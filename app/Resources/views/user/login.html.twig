@@ -4,35 +4,24 @@
 
 {% block title %}Connexion | {{ parent() }}{% endblock %}
 {% block body %}
-    <section id="wrapper">
-        <header>
-            <div class="inner">
-                <h2>Connexion</h2>
-            </div>
-        </header>
+    <h2>Connexion</h2>
+    {% if error %}
+        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 
-        <div class="wrapper">
-            <div class="inner">
-                {% if error %}
-                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
-
-                <form action="{{ path('login') }}" method="post">
-                    <div class="field">
-                        <label for="username">Identifiant</label>
-                        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
-                    </div>
-                    <div class="field">
-                        <label for="password">Mot de passe</label>
-                        <input type="password" id="password" name="_password"/>
-                    </div>
-
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-
-                    <button type="submit">Se connecter</button>
-
-                </form>
-            </div>
+    <form action="{{ path('login') }}" method="post">
+        <div class="field">
+            <label for="username">Identifiant</label>
+            <input type="text" id="username" name="_username" value="{{ last_username }}"/>
         </div>
-    </section>
+        <div class="field">
+            <label for="password">Mot de passe</label>
+            <input type="password" id="password" name="_password"/>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
+        <button type="submit">Se connecter</button>
+
+    </form>
 {% endblock %}

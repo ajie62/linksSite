@@ -1,0 +1,11 @@
+{# app/Resources/views/user/signup.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire | {{ parent() }}{% endblock %}
+{% block body %}
+    <h2>S'inscrire</h2>
+    {{ form_start(form) }}
+        <button type="submit">S'inscrire</button>
+    {{ form_end(form) }}
+{% endblock %}
