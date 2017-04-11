@@ -28,18 +28,24 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="{{ path('home') }}">Accueil</a></li>
-                <li><a href="{{ path('links') }}">Vos liens</a></li>
-                <li><a href="{{ path('login') }}">Se connecter</a></li>
-                <li><a href="{{ path('signup') }}">S'inscrire</a></li>
+                <!-- Si l'utilisateur est connecté, on affiche un lien pour consulter ses liens, ajouter un lien et pour se déconnecter -->
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <li><a href="{{ path('links') }}">Vos liens</a></li>
+                    <li><a href="{{ path('add_link') }}">Ajouter un lien</a></li>
+                    <li><a href="{{ path('logout') }}">Se déconnecter</a></li>
+                {% else %}
+                    <!-- Sinon, on affiche un lien de connexion/d'inscription -->
+                    <li><a href="{{ path('login') }}">Se connecter</a></li>
+                    <li><a href="{{ path('signup') }}">S'inscrire</a></li>
+                {% endif %}
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </nav>
 
+<div class="container">
 {% block body %}
 {% endblock %}
-
-<div class="container">
 
     <hr>
 

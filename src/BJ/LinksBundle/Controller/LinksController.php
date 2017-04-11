@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use BJ\LinksBundle\Entity\Link;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class LinksController extends Controller
 {
@@ -16,9 +17,16 @@ class LinksController extends Controller
      */
 	public function indexAction()
 	{
-		return $this->render('links/index.html.twig');
+	    $links = $this->getDoctrine()
+            ->getRepository('BJLinksBundle:Link')
+            ->findAll();
+        dump($links);
+		return $this->render('links/index.html.twig', array(
+		    'links' => $links
+        ));
 	}
 
+	//TODO définir la sécurité pour cette page
     /**
      * @Route("/links", name="links")
      */
@@ -27,8 +35,11 @@ class LinksController extends Controller
         return $this->render('links/view.html.twig');
     }
 
+    // L'annotation @Security permet de contrôler l'accès à la page : ici, si l'utilisateur n'a pas au moins le rôle
+    // utilisateur (donc, n'est pas connecté) alors il sera redirigé vers la page login
     /**
      * @Route("/add-link", name="add_link")
+     * @Security("has_role('ROLE_USER')")
      */
 	public function addAction(Request $request)
     {
@@ -40,15 +51,18 @@ class LinksController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Si le formulaire est soumis et valide, alors on enregistre le lien dans la bdd
+            // Si le formulaire est soumis et valide, alors on récupère l'utilisateur connecté pour le définir comme auteur
+            $author = $this->getUser();
+            $link->setAuthor($author);
+
+            // puis on enregistre le lien dans la bdd
             $em = $this->getDoctrine()->getManager();
             $em->persist($link);
             $em->flush();
 
-            // On ajoute un message flash et on redirige vers...
+            // On ajoute un message flash et on redirige vers l'accueil
             $this->addFlash('notice', 'Le lien a été ajouté.');
-            // TODO définir la redirection
-            return $this->redirectToRoute('/');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('links/add.html.twig', array(

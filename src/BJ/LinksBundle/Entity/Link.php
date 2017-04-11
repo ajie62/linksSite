@@ -2,6 +2,7 @@
 
 namespace BJ\LinksBundle\Entity;
 
+use BJ\UserBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,10 +43,15 @@ class Link
      */
     private $title;
 
+    // Ici, la relation est une relation ManyToOne : plusieurs liens peuvent être liés à un seul auteur,
+    // on renseigne donc l'entité correspondante (user)
+    // L'entité Link est propriétaire de notre relation, puisque c'est elle qui va contenir un champs author_id en bdd
+    // (en fait, c'est systématiquement le côté "Many" qui est propriétaire de la relation)
+    // Dans notre cas, j'ai utilisé une relation bidirectionnelle : on peut obtenir l'auteur d'un lien ($link->getAuthor()),
+    // mais aussi les liens d'un auteur ($user->getLinks()), d'où le "inversedBy".
+    // L'attribut correspondant (links) se trouve dans l'entité User
     /**
-     * @var int
-     *
-     * @ORM\Column(name="author", type="integer")
+     * @ORM\ManyToOne(targetEntity="BJ\UserBundle\Entity\User", inversedBy="links")
      */
     private $author;
 
@@ -143,14 +149,15 @@ class Link
         return $this->title;
     }
 
+    // Ici, désormais, on lie les entités en passant un objet User en paramètre
     /**
      * Set author
      *
-     * @param integer $author
+     * @param User $author
      *
      * @return Link
      */
-    public function setAuthor($author)
+    public function setAuthor(User $author)
     {
         $this->author = $author;
 
@@ -160,7 +167,7 @@ class Link
     /**
      * Get author
      *
-     * @return int
+     * @return User
      */
     public function getAuthor()
     {
