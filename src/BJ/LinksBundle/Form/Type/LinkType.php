@@ -25,6 +25,7 @@ class LinkType extends AbstractType
     {
         $builder
             ->add('url', UrlType::class, array(
+                'required' => true,
                 'constraints' => [
                     new NotBlank(array("message" => "L'URL est obligatoire.")),
                     new Url(array("message" => "Merci de renseigner une URL valide."))

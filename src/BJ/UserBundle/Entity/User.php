@@ -7,11 +7,14 @@
  */
 
 // Doc : http://symfony.com/doc/current/security/entity_provider.html
+// Unicité : http://symfony.com/doc/current/reference/constraints/UniqueEntity.html
 
 namespace BJ\UserBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM; // Cette ligne permet d'utiliser les annontations @ORM
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity; // Cette ligne va permettre de poser une contrainte sur l'unicité des champs username et email
 
 /**
  * Class User
@@ -19,6 +22,8 @@ use Doctrine\ORM\Mapping as ORM; // Cette ligne permet d'utiliser les annontatio
  *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="BJ\UserBundle\Repository\UserRepository")
+ * @UniqueEntity(fields="username", message="Ce pseudo est déjà utilisé.")
+ * @UniqueEntity(fields="email", message="Il semblerait que vous soyez déjà inscrit.")
  */
 class User implements UserInterface, \Serializable
 {
@@ -51,6 +56,13 @@ class User implements UserInterface, \Serializable
      */
     private $email;
 
+    // Voici le côté inverse de notre relation bidirectionnelle : on renseigne donc l'entité cible (Link), et on indique
+    // l'attribut correspondant (author)
+    /**
+     * @ORM\OneToMany(targetEntity="BJ\LinksBundle\Entity\Link", mappedBy="author")
+     */
+    private $links;
+
     /**
      * @ORM\Column(name="roles", type="array")
      */
@@ -60,6 +72,7 @@ class User implements UserInterface, \Serializable
     {
         // Par défaut, un utilisateur a le role de base : ROLE_USER
         $this->roles = array('ROLE_USER');
+        $this->links = new ArrayCollection();
     }
 
     // GETTERS //
@@ -94,6 +107,11 @@ class User implements UserInterface, \Serializable
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    public function getLinks()
+    {
+        return $this->links;
     }
 
     // SETTERS //
@@ -162,6 +180,6 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password
-            ) = $this->unserialize($serialized);
+            ) = unserialize($serialized);
     }
 }

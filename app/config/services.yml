@@ -6,4 +6,5 @@ parameters:
 services:
     bj.form_authenticator:
         class: BJ\UserBundle\Security\FormAuthenticator
-        arguments: ["@security.password_encoder"]
+        arguments: ["@security.password_encoder", "@router"]
+        autowire: true

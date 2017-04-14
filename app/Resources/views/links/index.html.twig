@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    Accueil
+{% endblock %}
+
+{% block body %}
+
+        <h1 class="page-header">Bienvenue sur LinksSite</h1>
+
+        <p>Vous passez beaucoup de temps sur Internet, visitez des sites utiles et souhaitez les conserver, sans avoir
+            peur de les perdre ? LinksSite est fait pour vous !</p>
+
+        <!-- Affichage du message flash -->
+        {% for flash_message in app.session.flashBag.get('notice') %}
+            <p>
+                {{ flash_message }}
+            </p>
+        {% endfor %}
+        <!-- Ce qui suit est juste une ébauche, pour te montrer l'affchage de nos liens récupérés par le contrôleur. -->
+        <ul>
+            {% for link in links %}
+                <li>
+                    <a href="{{ link.url }}">{{ link.title }}</a>, posté le {{ link.date | date('d/m/Y') }}
+                    par {% if link.author is not null %}{{ link.author.username }} {% else %}<i>utilisateur
+                        inconnu</i>{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+
+{% endblock %}
