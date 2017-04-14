@@ -1,0 +1,60 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Enable the sticky footer thanks to the body's flexible display */
+.main-container { flex: 1 0 0; }
+
+/* index.html.twig | link-container */
+.link-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f8f8f8;
+    border: 1px solid #d8d8d8;
+    box-shadow: 1px 1px 5px #d8d8d8;
+    color: #333;
+    min-height: 160px;
+    padding: 20px;
+    transition: .2s;
+}
+
+.link-container:hover {
+    box-shadow: 3px 3px 10px #d8d8d8;
+    transition: .5s;
+}
+
+.link-container:active {
+    box-shadow: inset 0px 0px 25px 5px #d8d8d8;
+}
+
+a.link-url { text-decoration: none!important; }
+
+.link-container h4 {
+    line-height: 1.5em;
+    margin: 0;
+}
+
+.link-container header,
+.link-description {
+    padding: 0 10px;
+}
+
+.link-description {
+    font-style: italic;
+    text-align: justify;
+}
+
+.link-container-hr { margin: 10px 0!important; }
+
+/* Site footer */
+
+footer {
+    background-color: #f8f8f8;
+    border-top: 1px solid #d8d8d8;
+    padding: 20px;
+}
+footer p { margin: 0!important; }

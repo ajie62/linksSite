@@ -20,7 +20,6 @@ class LinksController extends Controller
 	    $links = $this->getDoctrine()
             ->getRepository('BJLinksBundle:Link')
             ->findAll();
-        dump($links);
 		return $this->render('links/index.html.twig', array(
 		    'links' => $links
         ));
@@ -32,7 +31,12 @@ class LinksController extends Controller
      */
     public function viewAction()
     {
-        return $this->render('links/view.html.twig');
+        $links = $this->getDoctrine()
+            ->getRepository('BJLinksBundle:Link')
+            ->findByAuthor($this->getUser());
+        return $this->render('links/view.html.twig', array(
+            'links' => $links
+        ));
     }
 
     // L'annotation @Security permet de contrôler l'accès à la page : ici, si l'utilisateur n'a pas au moins le rôle

@@ -6,10 +6,13 @@
 
 {% block body %}
 
-        <h1 class="page-header">Bienvenue sur LinksSite</h1>
+        <h1 class="page-header">Ne perdez plus vos liens</h1>
 
-        <p>Vous passez beaucoup de temps sur Internet, visitez des sites utiles et souhaitez les conserver, sans avoir
-            peur de les perdre ? LinksSite est fait pour vous !</p>
+        <p class="lead">
+            Grâce à LinksSite, conservez vos liens simplement et retrouvez les rapidement.
+        </p>
+        <a class="btn btn-primary btn-lg" href="" alt="Inscrivez-vous" title="Inscription">Inscrivez-vous</a>
+        <a class="btn btn-success btn-lg" href="" alt="Connectez-vous" title="Connexion">Connectez-vous</a>
 
         <!-- Affichage du message flash -->
         {% for flash_message in app.session.flashBag.get('notice') %}
@@ -17,15 +20,21 @@
                 {{ flash_message }}
             </p>
         {% endfor %}
-        <!-- Ce qui suit est juste une ébauche, pour te montrer l'affchage de nos liens récupérés par le contrôleur. -->
-        <ul>
+
+        <h2 class="page-header">Liens de la communauté</h2>
+
+        <div class="row">
             {% for link in links %}
-                <li>
-                    <a href="{{ link.url }}">{{ link.title }}</a>, posté le {{ link.date | date('d/m/Y') }}
-                    par {% if link.author is not null %}{{ link.author.username }} {% else %}<i>utilisateur
-                        inconnu</i>{% endif %}
-                </li>
+                <div class="col-xs-12 col-md-4">
+                    <a class="link-url" href="{{ link.url }}">
+                    <div class="link-container">
+                        <h4>{{ link.title }}</h4>
+                        <p><em>{{ link.description }}</em></p>
+                        <p>Ajouté le <time>{{ link.date|date('d/m/Y') }}</time></p>
+                    </div>
+                    </a>
+                </div>
             {% endfor %}
-        </ul>
+        </div>
 
 {% endblock %}

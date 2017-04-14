@@ -5,7 +5,9 @@
 {% block title %}Ajouter un lien | {{ parent() }}{% endblock %}
 {% block body %}
     {{ form_start(form) }}
+        {{ form_row(form.title) }}
         {{ form_row(form.url) }}
+        {{ form_row(form.description) }}
         <!-- Ici, les autres champs à ajouter -->
         <input type="submit">
     {{ form_end(form) }}

@@ -14,5 +14,26 @@ Vos liens - {{parent()}}
 {# Cette page n'est visible que pour le membre actif. #}
 {# Ici seront affichés tous les liens du membre. #}
 
+    <table class="table table-responsive">
+        <thead>
+            <th>Lien</th>
+            <th>Description</th>
+            <th>Date d'ajout</th>
+            <th>Action</th>
+        </thead>
+
+        <tbody>
+	{% for link in links %}
+            <tr>
+                <td><a href="{{ link.url }}">{{ link.title }}</a></td>
+                <td>{{ link.description }}</td>
+                <td>Le {{ link.date | date('d/m/Y') }}</td>
+                {# TODO: Allow the user to edit and delete his links #}
+                <td><a href="" alt="" title="Éditer le lien">Éditer</a> | <a href="" alt="" title="">Supprimer</a></td>
+            </tr>
+	{% endfor %}
+        </tbody>
+    </table>
+
 
 {% endblock %}
