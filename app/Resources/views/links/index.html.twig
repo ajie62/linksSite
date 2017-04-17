@@ -31,6 +31,11 @@
                         <h4>{{ link.title }}</h4>
                         <p><em>{{ link.description }}</em></p>
                         <p>Ajouté le <time>{{ link.date|date('d/m/Y') }}</time></p>
+                        <ul>
+                            {% for tag in link.tags %}
+                                <li><a href="{{ path('home') }}?tag={{ tag.name }}">{{ tag.name }}</a></li>
+                            {% endfor %}
+                        </ul>
                     </div>
                     </a>
                 </div>

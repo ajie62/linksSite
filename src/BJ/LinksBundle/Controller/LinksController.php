@@ -15,11 +15,17 @@ class LinksController extends Controller
     /**
      * @Route("/", name="home")
      */
-	public function indexAction()
+	public function indexAction(Request $request)
 	{
-	    $links = $this->getDoctrine()
-            ->getRepository('BJLinksBundle:Link')
-            ->findAll();
+	    $em = $this->getDoctrine()->getManager();
+	    $repository = $em->getRepository('BJLinksBundle:Link');
+
+        if ($tag = $request->query->get('tag')) {
+            $links = $repository->findByTag($tag);
+        } else {
+           $links = $repository->findLatest();
+        }
+
 		return $this->render('links/index.html.twig', array(
 		    'links' => $links
         ));
@@ -58,7 +64,6 @@ class LinksController extends Controller
             // Si le formulaire est soumis et valide, alors on récupère l'utilisateur connecté pour le définir comme auteur
             $author = $this->getUser();
             $link->setAuthor($author);
-
             // puis on enregistre le lien dans la bdd
             $em = $this->getDoctrine()->getManager();
             $em->persist($link);
@@ -69,8 +74,10 @@ class LinksController extends Controller
             return $this->redirectToRoute('home');
         }
 
+        $tags = $this->getDoctrine()->getManager()->getRepository('BJLinksBundle:Tag')->findAll();
         return $this->render('links/add.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'tags' => $tags
         ));
     }
 }

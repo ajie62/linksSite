@@ -8,3 +8,9 @@ services:
         class: BJ\UserBundle\Security\FormAuthenticator
         arguments: ["@security.password_encoder", "@router"]
         autowire: true
+
+    bj.form.form_tags:
+        class: BJ\LinksBundle\Form\Type\TagType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }

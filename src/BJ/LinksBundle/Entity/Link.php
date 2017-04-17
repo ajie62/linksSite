@@ -2,7 +2,9 @@
 
 namespace BJ\LinksBundle\Entity;
 
+use BJ\LinksBundle\Concern\Taggable;
 use BJ\UserBundle\Entity\User;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -13,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Link
 {
+    use Taggable;
+
     /**
      * @var int
      *
@@ -55,6 +59,11 @@ class Link
      */
     private $author;
 
+    // TODO
+    // Pour la catégorie : plusieurs liens pourront appartenir à la même catégorie,
+    // mais un lien ne pourra avoir qu'une seule catégorie
+    // private $category;
+
     /**
      * @var \DateTime
      *
@@ -65,6 +74,7 @@ class Link
     public function __construct()
     {
         $this->date = new \DateTime();
+        $this->tags = new ArrayCollection();
     }
 
     /**
