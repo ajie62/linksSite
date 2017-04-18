@@ -15,6 +15,7 @@ class LinkRepository extends EntityRepository
     public function findLatest()
     {
         return $this->latestQuery()
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult();
     }
@@ -33,7 +34,8 @@ class LinkRepository extends EntityRepository
     private function latestQuery()
     {
         return $this->createQueryBuilder('l')
-            ->join('l.tags', 't')
-            ->select('l, t');
+            ->select('l')
+            ->orderBy('l.date', 'DESC')
+            ;
     }
 }

@@ -10,17 +10,17 @@ namespace BJ\LinksBundle\Form\DataTransformer;
 
 
 use BJ\LinksBundle\Entity\Tag;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class TagsTransformer implements DataTransformerInterface
 {
-    private $om;
+    private $em;
 
-    public function __construct(ObjectManager $manager)
+    public function __construct(EntityManager $manager)
     {
-        $this->om = $manager;
+        $this->em = $manager;
     }
 
     /**
@@ -52,7 +52,7 @@ class TagsTransformer implements DataTransformerInterface
      */
     public function transform($value)
     {
-        return implode(', ', $value);
+        return implode(',', $value);
     }
 
     /**
@@ -81,12 +81,19 @@ class TagsTransformer implements DataTransformerInterface
      */
     public function reverseTransform($value)
     {
+        // La méthode reverseTransform va permettre de transformer une chaîne de caractères en tableau de tags
+        // en s'assurant qu'il n'y a pas de doublons, ni de tags vide
         $names = array_unique(array_filter(array_map('trim', explode(',', $value))));
-        $tags = $this->om->getRepository('BJLinksBundle:Tag')->findBy([
+
+        // On récupère les tags déjà présents en BDD
+        $tags = $this->em->getRepository('BJLinksBundle:Tag')->findBy([
             'name' => $names
         ]);
 
+        // Et on les compare à ceux saisis par l'utilisateur
         $newNames = array_diff($names, $tags);
+
+        // Enfin, on n'ajoute que les nouveaux tags
         foreach ($newNames as $name) {
             $tag = new Tag();
             $tag->setName($name);

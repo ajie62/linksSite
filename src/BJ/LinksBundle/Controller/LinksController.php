@@ -3,6 +3,7 @@
 namespace BJ\LinksBundle\Controller;
 
 use BJ\LinksBundle\Form\Type\LinkType;
+use BJ\LinksBundle\Form\Type\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use BJ\LinksBundle\Entity\Link;
@@ -21,11 +22,12 @@ class LinksController extends Controller
 	    $repository = $em->getRepository('BJLinksBundle:Link');
 
         if ($tag = $request->query->get('tag')) {
+            dump($tag);
             $links = $repository->findByTag($tag);
         } else {
            $links = $repository->findLatest();
         }
-
+        dump($links);
 		return $this->render('links/index.html.twig', array(
 		    'links' => $links
         ));
@@ -74,7 +76,9 @@ class LinksController extends Controller
             return $this->redirectToRoute('home');
         }
 
+        // Au chargement de la page, on a besoin de la liste des tags déjà existants pour faire des suggestions à l'utilisateurs
         $tags = $this->getDoctrine()->getManager()->getRepository('BJLinksBundle:Tag')->findAll();
+
         return $this->render('links/add.html.twig', array(
             'form' => $form->createView(),
             'tags' => $tags

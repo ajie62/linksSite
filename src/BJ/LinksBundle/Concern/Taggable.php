@@ -13,7 +13,9 @@ use BJ\LinksBundle\Entity\Tag;
 
 trait Taggable
 {
-    // http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/association-mapping.html#many-to-many-bidirectional
+    // http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/association-mapping.html
+    // Ici, on utilise une relation ManyToMany unidirectionnelle, avec Link comme propriétaire.
+    // cascade={"persist"} permet de persister le tag en même temps que le lien
     /**
      * @ORM\ManyToMany(targetEntity="BJ\LinksBundle\Entity\Tag", cascade={"persist"})
      */

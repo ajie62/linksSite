@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Link
 {
+    // Comme on veut se laisser la possibilité de rendre une autre entité "taggable" (pourquoi pas des posts par la suite),
+    // un trait a été créé pour éviter une duplication de code. Cela a aussi l'avantage d'alléger notre entity Link
     use Taggable;
 
     /**
