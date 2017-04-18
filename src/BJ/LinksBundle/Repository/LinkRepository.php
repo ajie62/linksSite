@@ -23,8 +23,8 @@ class LinkRepository extends EntityRepository
     public function findByTag($name)
     {
         return $this->latestQuery()
-            ->join('l.tags', 'tmp')
-            ->where('tmp.name = :name')
+            ->join('l.tags', 't')
+            ->where('t.name = :name')
             ->addSelect('t')
                 ->setParameter('name', $name)
             ->getQuery()
