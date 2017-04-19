@@ -44,7 +44,6 @@ class LinkType extends AbstractType
                     new Url(array("message" => "Merci de renseigner une URL valide."))
                 ]
             ))
-            //TODO ajouter les autres champs nécessaires à la création d'un lien
             // Tu trouveras la liste des types disponibles ici : http://symfony.com/doc/current/forms.html#built-in-field-types
             // Pour les contraintes : http://symfony.com/doc/current/validation.html#basic-constraints
             ->add('description', TextareaType::class, array(
@@ -56,6 +55,7 @@ class LinkType extends AbstractType
                     ))
                 ]
             ))
+            ->add('tags', TagType::class)
         ;
     }
 

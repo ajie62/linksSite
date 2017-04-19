@@ -2,13 +2,65 @@
 
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/bjlinks/css/selectize.bootstrap3.css') }}">
+{% endblock %}
+
 {% block title %}Ajouter un lien | {{ parent() }}{% endblock %}
 {% block body %}
     {{ form_start(form) }}
         {{ form_row(form.title) }}
+    <!-- Ici, les autres champs à ajouter -->
         {{ form_row(form.url) }}
         {{ form_row(form.description) }}
-        <!-- Ici, les autres champs à ajouter -->
+        {{ form_row(form.tags) }}
+        {{ form_rest(form) }}
         <input type="submit">
     {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('bundles/bjlinks/js/standalone/selectize.min.js') }}"></script>
+    <script type="text/javascript">
+        // http://selectize.github.io/selectize.js/
+        // Avec JS, on va donner un peu de style au champ permettant de saisir les tags : on suggère des tags existants,
+        // et on donne la possibilité à l'utilisateur d'en créer de nouveaux
+
+        var options = [];
+        var tags = {{ tags|json_encode|raw }};
+        {% for tag in tags %}
+        var tag = {
+            name: {{ tag.name|json_encode|raw }}
+        };
+        options.push(tag);
+        {% endfor %}
+        $('.input-tags').selectize({
+            persist: true,
+            plugins: ['remove_button'],
+            delimiter: ',',
+            searchField: ['name'],
+            valueField: 'name',
+            labelField: 'name',
+            options: options,
+            render: {
+                item: function(item, escape) {
+                    return '<div>' +
+                        (item.name ? '<span class="name">' + escape(item.name) + '</span> ' : '') +
+                        '</div>';
+                },
+                option: function(item, escape) {
+                    var caption = item.name;
+                    return '<div><span class="caption">' + escape(caption) + '</span></div>';
+                }
+            },
+            create: function(input) {
+                return {
+                    name: input,
+                    text: input
+                }
+            }
+        });
+    </script>
 {% endblock %}

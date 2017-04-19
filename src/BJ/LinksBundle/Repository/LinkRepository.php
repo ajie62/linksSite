@@ -12,4 +12,30 @@ use Doctrine\ORM\EntityRepository;
  */
 class LinkRepository extends EntityRepository
 {
+    public function findLatest()
+    {
+        return $this->latestQuery()
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByTag($name)
+    {
+        return $this->latestQuery()
+            ->join('l.tags', 't')
+            ->where('t.name = :name')
+            ->addSelect('t')
+                ->setParameter('name', $name)
+            ->getQuery()
+            ->getResult();
+    }
+
+    private function latestQuery()
+    {
+        return $this->createQueryBuilder('l')
+            ->select('l')
+            ->orderBy('l.date', 'DESC')
+            ;
+    }
 }

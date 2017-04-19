@@ -16,3 +16,4 @@
 var/
 bin/
 composer.lock
+web/bundles/

@@ -26,13 +26,18 @@
         <div class="row">
             {% for link in links %}
                 <div class="col-xs-12 col-md-4">
-                    <a class="link-url" href="{{ link.url }}">
                     <div class="link-container">
+                    <a class="link-url" href="{{ link.url }}">
                         <h4>{{ link.title }}</h4>
                         <p><em>{{ link.description }}</em></p>
                         <p>Ajouté le <time>{{ link.date|date('d/m/Y') }}</time></p>
-                    </div>
                     </a>
+                        <ul class="list-inline">
+                            {% for tag in link.tags %}
+                                <li><a href="{{ path('home') }}?tag={{ tag.name }}" class="btn btn-info btn-xs">{{ tag.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             {% endfor %}
         </div>
