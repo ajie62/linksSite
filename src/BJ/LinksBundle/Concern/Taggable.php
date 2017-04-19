@@ -10,6 +10,7 @@ namespace BJ\LinksBundle\Concern;
 
 
 use BJ\LinksBundle\Entity\Tag;
+use Doctrine\ORM\Mapping as ORM;
 
 trait Taggable
 {
