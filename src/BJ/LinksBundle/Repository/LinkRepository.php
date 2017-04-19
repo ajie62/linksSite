@@ -27,6 +27,8 @@ class LinkRepository extends EntityRepository
             ->where('t.name = :name')
             ->addSelect('t')
                 ->setParameter('name', $name)
+            ->join('l.tags', 'tmp')
+            ->addSelect('tmp')
             ->getQuery()
             ->getResult();
     }

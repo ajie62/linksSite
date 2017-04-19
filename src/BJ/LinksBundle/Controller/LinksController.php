@@ -22,12 +22,11 @@ class LinksController extends Controller
 	    $repository = $em->getRepository('BJLinksBundle:Link');
 
         if ($tag = $request->query->get('tag')) {
-            dump($tag);
             $links = $repository->findByTag($tag);
         } else {
            $links = $repository->findLatest();
         }
-        dump($links);
+
 		return $this->render('links/index.html.twig', array(
 		    'links' => $links
         ));

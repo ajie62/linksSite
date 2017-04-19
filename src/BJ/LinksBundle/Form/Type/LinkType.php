@@ -28,6 +28,7 @@ class LinkType extends AbstractType
         $builder
             ->add('title', TextType::class, array(
                 'label' => "Titre",
+                'help' => "test help",
                 'constraints' => [
                     new Length(array(
                         "min" => 10,
@@ -42,7 +43,7 @@ class LinkType extends AbstractType
                 'constraints' => [
                     new NotBlank(array("message" => "L'URL est obligatoire.")),
                     new Url(array("message" => "Merci de renseigner une URL valide."))
-                ]
+                ],
             ))
             // Tu trouveras la liste des types disponibles ici : http://symfony.com/doc/current/forms.html#built-in-field-types
             // Pour les contraintes : http://symfony.com/doc/current/validation.html#basic-constraints

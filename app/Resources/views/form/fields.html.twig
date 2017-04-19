@@ -1,0 +1,14 @@
+{# app/Resources/views/form/fields.html.twig #}
+
+{% block form_row %}
+    {% spaceless %}
+        <div>
+            {{ form_label(form) }}
+            {{ form_errors(form) }}
+            {{ form_widget(form) }}
+            {% if form.vars.help is defined and form.vars.help is not null %}
+                {{ form.vars.help }}
+            {% endif %}
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}

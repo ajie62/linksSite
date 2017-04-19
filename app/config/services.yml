@@ -4,7 +4,7 @@ parameters:
     #parameter_name: value
 
 services:
-    bj.form_authenticator:
+    bj.form.form_authenticator:
         class: BJ\UserBundle\Security\FormAuthenticator
         arguments: ["@security.password_encoder", "@router"]
         autowire: true
@@ -14,3 +14,9 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
         tags:
             - { name: form.type }
+
+    bj.form.extension.help:
+        class: BJ\AppBundle\Form\Extension\HelpFormExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+

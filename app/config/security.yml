@@ -32,8 +32,8 @@ security:
 
             guard:
                 authenticators:
-                    - bj.form_authenticator
-                entry_point: bj.form_authenticator
+                    - bj.form.form_authenticator
+                entry_point: bj.form.form_authenticator
 
             form_login:
                 login_path:           login
