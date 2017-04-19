@@ -30,7 +30,10 @@ sont directement définis dans app/config/routing.yml et dans app/Resources/view
     
     Ainsi, dans les templates, pour appeler une route, il suffit de faire {{ path('_nom_de_la_route_') }}
 - Ajout de fixtures, pour rentrer en bdd des données un utilisateur de test, à installer avec la commande `php bin/console doctrine:fixtures:load`
-- ! Tags : 
+- ! Tags : Ajout de l'entité tag et du trait taggable. 
+    L'utilisation du trait va permettre d'éviter la duplication de code au cas où on voudrait implémenter un système de tags sur autre chose que les liens (des articles, par exemple).
+    Un DataTransformer a été créé pour pouvoir rendre le champ tags plus "sympa" : en effet, c'est désormais un champ texte, il fallait donc passer d'une collection à un tableau, puis d'un tableau à une chaîne de caractères.
+- ! Tests : ajout de quelques tests unitaires concernant notre DataTransformer et un test fonctionnel vérifiant les routes de l'application.
 - ! AppBundle : HelpFormExtension
     Cette extension s'applique à tous les types de champs de formulaire et permet d'ajouter simplement un message d'aide, par exemple :
     `$builder->add('name', TextType::class, array(
