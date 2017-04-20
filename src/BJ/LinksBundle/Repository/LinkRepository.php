@@ -25,7 +25,6 @@ class LinkRepository extends EntityRepository
         return $this->latestQuery()
             ->join('l.tags', 't')
             ->where('t.name = :name')
-            ->addSelect('t')
                 ->setParameter('name', $name)
             ->join('l.tags', 'tmp')
             ->addSelect('tmp')
