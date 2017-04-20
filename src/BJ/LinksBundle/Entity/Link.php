@@ -73,6 +73,13 @@ class Link
      */
     private $date;
 
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isPublic", type="boolean")
+     */
+    private $isPublic;
+
     public function __construct()
     {
         $this->date = new \DateTime();
@@ -208,6 +215,22 @@ class Link
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublic()
+    {
+        return $this->isPublic;
+    }
+
+    /**
+     * @param boolean $isPublic
+     */
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = $isPublic;
     }
 }
 

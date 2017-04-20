@@ -14,7 +14,7 @@ class LinkRepository extends EntityRepository
 {
     public function findLatest()
     {
-        return $this->latestQuery()
+        return $this->latestPublicLinksQuery()
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
@@ -22,9 +22,9 @@ class LinkRepository extends EntityRepository
 
     public function findByTag($name)
     {
-        return $this->latestQuery()
+        return $this->latestPublicLinksQuery()
             ->join('l.tags', 't')
-            ->where('t.name = :name')
+            ->andWhere('t.name = :name')
                 ->setParameter('name', $name)
             ->join('l.tags', 'tmp')
             ->addSelect('tmp')
@@ -32,10 +32,12 @@ class LinkRepository extends EntityRepository
             ->getResult();
     }
 
-    private function latestQuery()
+    private function latestPublicLinksQuery()
     {
         return $this->createQueryBuilder('l')
             ->select('l')
+            ->where('l.isPublic = :isPublic')
+                ->setParameter('isPublic', true)
             ->orderBy('l.date', 'DESC')
             ;
     }
