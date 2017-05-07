@@ -32,6 +32,27 @@ class LinkRepository extends EntityRepository
             ->getResult();
     }
 
+    public function getLinksBySearch($search)
+    {
+        $links = [];
+
+        $result = $this->createQueryBuilder('l')
+            ->addSelect("MATCH_AGAINST (l.url, l.description, l.title, :searchterm 'IN NATURAL MODE') as score")
+            ->add('where', 'MATCH_AGAINST(l.url, l.description, l.title, :searchterm) > 0.8')
+            ->setParameter('searchterm', $search)
+            ->orderBy('score', 'DESC')
+            ->leftJoin('l.tags', 't')
+            ->addSelect('t')
+            ->getQuery()
+            ->getResult();
+
+        foreach ( $result as $item) {
+            $links[] = $item[0];
+        }
+
+        return $links;
+    }
+
     private function latestPublicLinksQuery()
     {
         return $this->createQueryBuilder('l')
@@ -41,4 +62,5 @@ class LinkRepository extends EntityRepository
             ->orderBy('l.date', 'DESC')
             ;
     }
+
 }

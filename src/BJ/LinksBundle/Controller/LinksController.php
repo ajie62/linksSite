@@ -31,9 +31,9 @@ class LinksController extends Controller
         ));
 	}
 
-	// TODO Limiter l'accès de la page aux utilisateurs connectés
     /**
      * @Route("/links", name="links")
+     * @Security("has_role('ROLE_USER')")
      */
     public function viewAction()
     {
@@ -93,8 +93,8 @@ class LinksController extends Controller
      */
     public function editAction(Request $request, Link $link)
     {
-        // On vérifie que l'utilisateur qui cherche à modifier le lien en est bien l'auteur
-        if($this->getUser() !== $link->getAuthor()) {
+        // On vérifie que l'utilisateur qui cherche à modifier le lien en est bien l'auteur ou a le rôle d'admin
+        if(!($this->getUser() === $link->getAuthor() || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))) {
             // Si ce n'est pas le cas, on renvoie une erreur 403, accès refusé
             throw $this->createAccessDeniedException('Vous n\'avez pas l\'autorisation pour modifier ce lien.');
         }
@@ -115,6 +115,24 @@ class LinksController extends Controller
         return $this->render('links/add.html.twig', array(
             'form' => $form->createView(),
             'tags' => $tags
+        ));
+    }
+
+    /**
+     * @Route("/search", name="search_results")
+     */
+    public function searchAction(Request $request)
+    {
+        $search = $request->get('key');
+
+        $links = $this->getDoctrine()->getRepository('BJLinksBundle:Link')->getLinksBySearch($search);
+
+        dump($links);
+        foreach ($links as $link) {
+            dump($link);
+        }
+        return $this->render(':links:index.html.twig', array(
+            'links' => $links
         ));
     }
 }

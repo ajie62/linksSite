@@ -37,6 +37,7 @@
                     <!-- Sinon, on affiche un lien de connexion/d'inscription -->
                     <li {% if app.request.get('_route') == 'login' %} class="active"{% endif %}><a href="{{ path('login') }}">Se connecter</a></li>
                     <li><a href="{{ path('signup') }}">S'inscrire</a></li>
+                    <li>{% include ':links:_search.html.twig' %}</li>
                 {% endif %}
             </ul>
         </div><!--/.nav-collapse -->

@@ -10,7 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Link
  *
- * @ORM\Table(name="link")
+ * @ORM\Table(
+ *     name="link",
+ *     indexes={
+ *     @ORM\Index(name="search_idx", columns={"title", "description", "url"}, flags={"fulltext"})
+ * })
  * @ORM\Entity(repositoryClass="BJ\LinksBundle\Repository\LinkRepository")
  */
 class Link
