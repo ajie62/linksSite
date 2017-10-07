@@ -3,7 +3,6 @@
 namespace BJ\LinksBundle\Controller;
 
 use BJ\LinksBundle\Form\Type\LinkType;
-use BJ\LinksBundle\Form\Type\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use BJ\LinksBundle\Entity\Link;
@@ -32,9 +31,9 @@ class LinksController extends Controller
         ));
 	}
 
-	//TODO définir la sécurité pour cette page
     /**
      * @Route("/links", name="links")
+     * @Security("has_role('ROLE_USER')")
      */
     public function viewAction()
     {
@@ -81,6 +80,59 @@ class LinksController extends Controller
         return $this->render('links/add.html.twig', array(
             'form' => $form->createView(),
             'tags' => $tags
+        ));
+    }
+
+    // Ici, on va utiliser les ParamConverter : je passe un paramètre id dans mon URL,
+    // et SF va se charger de me renvoyer l'objet Link correspondant. Soit en typant mon argument (Link $link),
+    // soit en utilisant l'annotation @ParamConverter
+    // http://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
+    /**
+     * @Route("/edit-link/{id}", name="edit_link")
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function editAction(Request $request, Link $link)
+    {
+        // On vérifie que l'utilisateur qui cherche à modifier le lien en est bien l'auteur ou a le rôle d'admin
+        if(!($this->getUser() === $link->getAuthor() || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN'))) {
+            // Si ce n'est pas le cas, on renvoie une erreur 403, accès refusé
+            throw $this->createAccessDeniedException('Vous n\'avez pas l\'autorisation pour modifier ce lien.');
+        }
+
+        $form = $this->get('form.factory')->create(LinkType::class, $link);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('notice', 'Le lien a été édité.');
+            return $this->redirectToRoute('home');
+        }
+
+        $tags = $this->getDoctrine()->getManager()->getRepository('BJLinksBundle:Tag')->findAll();
+
+        return $this->render('links/add.html.twig', array(
+            'form' => $form->createView(),
+            'tags' => $tags
+        ));
+    }
+
+    /**
+     * @Route("/search", name="search_results")
+     */
+    public function searchAction(Request $request)
+    {
+        $search = $request->get('key');
+
+        $links = $this->getDoctrine()->getRepository('BJLinksBundle:Link')->getLinksBySearch($search);
+
+        dump($links);
+        foreach ($links as $link) {
+            dump($link);
+        }
+        return $this->render(':links:index.html.twig', array(
+            'links' => $links
         ));
     }
 }

@@ -10,7 +10,11 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Link
  *
- * @ORM\Table(name="link")
+ * @ORM\Table(
+ *     name="link",
+ *     indexes={
+ *     @ORM\Index(name="search_idx", columns={"title", "description", "url"}, flags={"fulltext"})
+ * })
  * @ORM\Entity(repositoryClass="BJ\LinksBundle\Repository\LinkRepository")
  */
 class Link
@@ -72,6 +76,13 @@ class Link
      * @ORM\Column(name="date", type="datetime")
      */
     private $date;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="isPublic", type="boolean")
+     */
+    private $isPublic;
 
     public function __construct()
     {
@@ -208,6 +219,22 @@ class Link
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublic()
+    {
+        return $this->isPublic;
+    }
+
+    /**
+     * @param boolean $isPublic
+     */
+    public function setIsPublic($isPublic)
+    {
+        $this->isPublic = $isPublic;
     }
 }
 

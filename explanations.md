@@ -44,6 +44,8 @@ sont directement définis dans app/config/routing.yml et dans app/Resources/view
     AppBundle sera donc un bundle spécifique à notre application, mais générique, dans le sens où il ne concernera une fonctionnalité particulière.
     Dans app\config\services.yml, on définit notre service : bj.form.extension.help, avec la classe utilisée et on précise, dans les tags, le nom et le type étendu (ici FormType, puisqu'on veut que cela s'applique à tous les types de champs).
     Dans app\Resources\views, on a un nouveau dossier : form, avec le fichier fields.html.twig qui nous permet de surcharger la construction par défaut de twig du bloc form_row pour y intégrer notre "help"
+- ! Link : ajout d'un attribut public. Modification de LinkType et LinkRepository pour ne récupérer que les liens publics sur la homepage
+- ! LinksController : ajout de editAction, permettant à un utilisateur de modifier ces propres liens. Modification du path dans la vue view.html.twig
     
 Bonnes pratiques :
 - Toujours ajouter une ligne à la fin des fichiers
@@ -63,3 +65,4 @@ des infos sensibles)
 - config.yml : donner un nom personnalisé à la session
 - parameters.yml.dist : changer le "secret"
 - LinksController.php : définir la sécurité pour l'accès à la page correspondant à ViewAction
+- Link.php : mettre un place un système de catégories

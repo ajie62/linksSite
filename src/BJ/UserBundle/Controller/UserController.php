@@ -49,7 +49,7 @@ class UserController extends Controller
                 ->authenticateUserAndHandleSuccess(
                     $user,
                     $request,
-                    $this->get('bj.form_authenticator'),
+                    $this->get('bj.form.form_authenticator'),
                     'main'
                 );
         }

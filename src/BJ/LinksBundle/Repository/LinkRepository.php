@@ -14,7 +14,7 @@ class LinkRepository extends EntityRepository
 {
     public function findLatest()
     {
-        return $this->latestQuery()
+        return $this->latestPublicLinksQuery()
             ->setMaxResults(5)
             ->getQuery()
             ->getResult();
@@ -22,10 +22,9 @@ class LinkRepository extends EntityRepository
 
     public function findByTag($name)
     {
-        return $this->latestQuery()
+        return $this->latestPublicLinksQuery()
             ->join('l.tags', 't')
-            ->where('t.name = :name')
-            ->addSelect('t')
+            ->andWhere('t.name = :name')
                 ->setParameter('name', $name)
             ->join('l.tags', 'tmp')
             ->addSelect('tmp')
@@ -33,11 +32,35 @@ class LinkRepository extends EntityRepository
             ->getResult();
     }
 
-    private function latestQuery()
+    public function getLinksBySearch($search)
+    {
+        $links = [];
+
+        $result = $this->createQueryBuilder('l')
+            ->addSelect("MATCH_AGAINST (l.url, l.description, l.title, :searchterm 'IN NATURAL MODE') as score")
+            ->add('where', 'MATCH_AGAINST(l.url, l.description, l.title, :searchterm) > 0.8')
+            ->setParameter('searchterm', $search)
+            ->orderBy('score', 'DESC')
+            ->leftJoin('l.tags', 't')
+            ->addSelect('t')
+            ->getQuery()
+            ->getResult();
+
+        foreach ( $result as $item) {
+            $links[] = $item[0];
+        }
+
+        return $links;
+    }
+
+    private function latestPublicLinksQuery()
     {
         return $this->createQueryBuilder('l')
             ->select('l')
+            ->where('l.isPublic = :isPublic')
+                ->setParameter('isPublic', true)
             ->orderBy('l.date', 'DESC')
             ;
     }
+
 }

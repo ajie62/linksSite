@@ -28,8 +28,7 @@ Vos liens - {{parent()}}
                 <td><a href="{{ link.url }}">{{ link.title }}</a></td>
                 <td>{{ link.description }}</td>
                 <td>Le {{ link.date | date('d/m/Y') }}</td>
-                {# TODO: Allow the user to edit and delete his links #}
-                <td><a href="" alt="" title="Éditer le lien">Éditer</a> | <a href="" alt="" title="">Supprimer</a></td>
+                <td><a href="{{ path('edit_link', {'id': link.id}) }}" alt="" title="Éditer le lien">Éditer</a> | <a href="" alt="" title="">Supprimer</a></td>
             </tr>
 	{% endfor %}
         </tbody>
